@@ -1,0 +1,166 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+
+
+	<h:form>
+
+		<!--  Dialogo Crear Producto  -->
+
+		<br />
+		<p:commandButton value="Agregar" onclick="PF('crearDlg').show();"
+			title="Agregar">
+			<h1>Agregar Producto</h1>
+		</p:commandButton>
+
+		<br />
+
+		<script type="text/javascript">
+			function handleLoginRequest(xhr, status, args) {
+				PF('crearDlg').hide();
+				$('#loginLink').fadeOut();
+			}
+		</script>
+
+
+		<p:dialog header="Agregar Producto" widgetVar="crearDlg"
+			resizable="false" modal="true" position="top">
+			<h:panelGrid columns="2" cellpadding="5">
+
+				<h:outputLabel for="categoria" value="Categoria: " />
+				<p:inputText id="categoria" value="#{indexMB.categoria}"
+					required="true" label="categoria" />
+
+				<h:outputLabel for="nombre" value="Nombre " />
+				<p:inputText id="nombre" value="#{indexMB.nombre}" required="true"
+					label="nombre" />
+
+				<h:outputLabel for="marca" value="Marca: " />
+				<p:inputText id="marca" value="#{indexMB.marca}" required="true"
+					label="marca" />
+
+				<h:outputLabel for="tipo" value="Tipo repuesto: " />
+				<p:inputText id="tipo" value="#{indexMB.tipo}" required="true"
+					label="tipo" />
+
+				<h:outputLabel for="cilindraje" value="Cilindraje: " />
+				<p:inputText id="cilindraje" value="#{indexMB.cilindraje}"
+					required="true" label="cilindraje" />
+
+				<h:outputLabel for="precio" value="Precio: " />
+				<p:inputText id="precio" value="#{indexMB.precio}" required="true"
+					label="precio" />
+
+
+				<f:facet name="footer">
+					<p:commandButton value="Guardar"
+						actionListener="#{indexMB.guardarArticulo()}"
+						oncomplete="handleLoginRequest(xhr, status, args)" />
+				</f:facet>
+			</h:panelGrid>
+		</p:dialog>
+
+
+	</h:form>
+
+	<!--  Tabla de datos  -->
+
+	<h:form id="tablita">
+
+		<p:dataTable var="articulo" value="#{indexMB.listaCargada}">
+
+			<p:column headerText="Referencia">
+				<h:outputText value="#{articulo.referencia}" />
+			</p:column>
+
+			<p:column headerText="Categoria">
+				<h:outputText value="#{articulo.categoria}" />
+			</p:column>
+
+			<p:column headerText="Nombre">
+				<h:outputText value="#{articulo.nombre}" />
+			</p:column>
+
+			<p:column headerText="Marca">
+				<h:outputText value="#{articulo.marca}" />
+			</p:column>
+
+			<p:column headerText="Tipo">
+				<h:outputText value="#{articulo.tipo}" />
+			</p:column>
+
+			<p:column headerText="Cilindraje">
+				<h:outputText value="#{articulo.cilindraje}" />
+			</p:column>
+
+			<p:column headerText="Precio">
+				<h:outputText value="#{articulo.precioBase}" />
+			</p:column>
+
+			<p:column>
+				<p:commandButton id="btnBorrar" value="Borrar"
+					action="#{indexMB.borrarArticulo(articulo)}" process="@this" />
+			</p:column>
+
+			<p:column>
+				<p:commandButton id="btnModificar" value="Modificar"
+					action="#{indexMB.modificando(articulo)}" process="@this"
+					onclick="PF('modificarDlg').show();" />
+			</p:column>
+		</p:dataTable>
+
+		<!--  Dialogo de modificar gato -->
+
+		<script type="text/javascript">
+			function handleLoginRequest(xhr, status, args) {
+				PF('modificarDlg').hide();
+				$('#loginLink').fadeOut();
+			}
+		</script>
+
+		<p:dialog header="Modificar Articulo" widgetVar="modificarDlg"
+			resizable="false" modal="true">
+			<h:panelGrid columns="2" cellpadding="5">
+
+				<h:outputLabel for="categoria" value="Categoria: " />
+				<p:inputText id="categoria" value="#{indexMB.modCategoria}"
+					required="true" label="categoria" />
+
+				<h:outputLabel for="nombre" value="Nombre " />
+				<p:inputText id="nombre" value="#{indexMB.modNombre}"
+					required="true" label="nombre" />
+
+				<h:outputLabel for="marca" value="Marca: " />
+				<p:inputText id="marca" value="#{indexMB.modMarca}" required="true"
+					label="marca" />
+
+				<h:outputLabel for="tipo" value="Tipo repuesto: " />
+				<p:inputText id="tipo" value="#{indexMB.modTipo}" required="true"
+					label="tipo" />
+
+				<h:outputLabel for="cilindraje" value="Cilindraje: " />
+				<p:inputText id="cilindraje" value="#{indexMB.modCilindraje}"
+					required="true" label="cilindraje" />
+
+				<h:outputLabel for="precio" value="Precio: " />
+				<p:inputText id="precio" value="#{indexMB.modPrecio}"
+					required="true" label="precio" />
+
+				<f:facet name="footer">
+					<p:commandButton value="Modificar"
+						actionListener="#{indexMB.modificarArticulo()}"
+						oncomplete="handleLoginRequest(xhr, status, args)" />
+				</f:facet>
+			</h:panelGrid>
+		</p:dialog>
+
+	</h:form>
+
+	<p:chart type="line" model="#{indexMB.lineModel2}"
+		style="height:300px;" />
+</h:body>
+</html>
